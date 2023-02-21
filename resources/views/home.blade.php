@@ -15,14 +15,18 @@
     </header>
 
     <div class="h-full flex flex-col items-center justify-center">
-        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" method="POST" action="/">
+            @csrf
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="height">
                     Height
                 </label>
                 <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="height" type="text" placeholder="Your height in cm(e.g. 175)">
+                    type="text" id="height" name="height" placeholder="Your height in cm(e.g. 175)" required>
+                @error('height')
+                    <div class="text-red-400 text-sm">{{ $message }}</div>
+                @enderror
             </div>
             <div class="mb-6">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="weight">
@@ -30,26 +34,32 @@
                 </label>
                 <input
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="height" type="text" placeholder="Your weight in kg(e.g. 60)">
+                    type="text" id="weight" name="weight" placeholder="Your weight in kg(e.g. 60)" required>
+                @error('weight')
+                    <div class="text-red-400 text-sm">{{ $message }}</div>
+                @enderror
             </div>
             <div class="flex items-center justify-between">
                 <button
                     class="bg-sky-500 transition ease-in-out duration-300 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                    type="button">
+                    type="submit">
                     Calculate body mass index
                 </button>
             </div>
         </form>
 
-        <div class="bg-white shadow-md rounded px-8 pt-6 pb-6 mb-4 flex">
-            <div>
-                <p>Your body mass index is: </p>
-                <p class="text-right">You are underweight</p>
+        @isset($message)
+            <div class="bg-white shadow-md rounded px-8 pt-6 pb-6 mb-4 flex">
+                <div>
+                    <p>Your body mass index is: </p>
+                    <p class="text-right">You are <span class="text-{{ $color }}-500">{{ $message }}</span></p>
+                </div>
+                <div class="flex
+                            items-center ml-4">
+                    <p class="text-5xl font-bold text-{{ $color }}-500">{{ $result }}</p>
+                </div>
             </div>
-            <div class="flex items-center ml-4">
-                <p class="text-5xl font-bold">18</p>
-            </div>
-        </div>
+        @endisset
         <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <div class="relative overflow-x-auto">
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
