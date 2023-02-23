@@ -29,8 +29,8 @@ class HomeController extends Controller
         ];
 
         $data = request()->validate([
-            'weight' => 'required|numeric',
-            'height' => 'required|numeric'
+            'weight' => 'required|numeric|gt:0',
+            'height' => 'required|numeric|gt:0'
         ]);
 
         $result = round($data['weight'] / pow(($data['height'] / 100), 2), 2);
